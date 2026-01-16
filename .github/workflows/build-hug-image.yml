@@ -1,39 +1,39 @@
-name: Build huggingface Image
+名称：构建 huggingface 镜像: Build huggingface Image
 
-on:
-  push:
-    branches: [ hug ]
-    paths:
-      - 'Dockerfile'
-      - 'index.js'
-      - 'package.json'
-      - 'index.html'
-  pull_request:
-    branches: [ hug ]
-  workflow_dispatch:
+在::
+  推送::
+    分支：[ 拥抱 ]: [ hug ]
+    路径::
+      - 'Dockerfile''Dockerfile'
+      - 'index.js''index.js'
+      - 'package.json''package.json'
+      - 'index.html''index.html'
+  拉取请求::
+    分支：[ 拥抱 ]: [ hug ]
+  工作流程_派发::
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+职位::
+  构建::
+    运行于: ubuntu-latest: ubuntu-latest
+    权限：:
+      内容：阅读: read
+      软件包：编写: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: hug 
+    步骤：:
+      - 名称: 检出仓库name: Checkout repository
+        用途：actions/checkout@v4: actions/checkout@v4
+        与：:
+          参考：拥抱: hug 
 
-      - name: Convert to lowercase
-        id: vars
-        run: |
-          echo "owner_lower=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
-          echo "repo_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      - name: 转换为小写name: Convert to lowercase
+        id: vars: vars
+        运行：|: |
+          echo "owner_lower=$(echo \"${{ github.repository_owner }}\" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo_lower=$(echo \"${{ github.repository }}\" | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
+      - 名称：登录 GitHub 容器注册表name: Log in to GitHub Container Registry
+        用途: docker/login-action@v3: docker/login-action@v3
+        与：:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ steps.vars.outputs.owner_lower }}/hugws:latest
+            ghcr.io/${{ steps.vars.outputs.owner_lower }}/myspace:latest
           labels: |
             org.opencontainers.image.source=https://github.com/${{ steps.vars.outputs.repo_lower }}
             org.opencontainers.image.description=http server
